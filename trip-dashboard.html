@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Group Trip Dashboard — July 4th 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --surface: #111620;
+    --surface2: #161d2a;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8edf5;
+    --muted: #6b7a94;
+    --accent-rainier: #3b82f6;
+    --accent-olympic: #10b981;
+    --accent-smokies: #f59e0b;
+    --rainier-glow: rgba(59,130,246,0.15);
+    --olympic-glow: rgba(16,185,129,0.15);
+    --smokies-glow: rgba(245,158,11,0.15);
+    --gold: #f59e0b;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 48px 48px 32px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    top: -120px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(245,158,11,0.12);
+    border: 1px solid rgba(245,158,11,0.3);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding: 5px 12px;
+    border-radius: 100px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .badge::before { content: '✦'; font-size: 9px; }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  h1 em { font-style: italic; color: var(--gold); }
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 400;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  .meta-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    padding: 5px 12px;
+    border-radius: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pill span { color: var(--text); font-weight: 500; }
+
+  /* ── NAVIGATION ── */
+  .nav {
+    display: flex;
+    gap: 4px;
+    padding: 20px 48px 0;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0;
+    background: rgba(10,14,20,0.95);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+  }
+  .tab-btn {
+    padding: 14px 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: -1px;
+    letter-spacing: 0.01em;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active-rainier { color: var(--accent-rainier); border-bottom-color: var(--accent-rainier); }
+  .tab-btn.active-olympic { color: var(--accent-olympic); border-bottom-color: var(--accent-olympic); }
+  .tab-btn.active-smokies { color: var(--accent-smokies); border-bottom-color: var(--accent-smokies); }
+  .tab-btn.active-compare { color: var(--gold); border-bottom-color: var(--gold); }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CONTENT PANELS ── */
+  .panels { padding: 0 48px 80px; }
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeUp 0.3s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HERO CARD ── */
+  .hero-card {
+    margin-top: 32px;
+    border-radius: 16px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .hero-card.rainier { background: linear-gradient(135deg, rgba(59,130,246,0.12) 0%, var(--surface2) 60%); }
+  .hero-card.olympic { background: linear-gradient(135deg, rgba(16,185,129,0.12) 0%, var(--surface2) 60%); }
+  .hero-card.smokies { background: linear-gradient(135deg, rgba(245,158,11,0.12) 0%, var(--surface2) 60%); }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    opacity: 0.25;
+  }
+  .hero-card.rainier::before { background: radial-gradient(circle, var(--accent-rainier), transparent 70%); }
+  .hero-card.olympic::before { background: radial-gradient(circle, var(--accent-olympic), transparent 70%); }
+  .hero-card.smokies::before { background: radial-gradient(circle, var(--accent-smokies), transparent 70%); }
+
+  .hero-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .hero-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .hero-tagline { color: var(--muted); font-size: 14px; max-width: 480px; line-height: 1.6; margin-bottom: 20px; }
+  .vibe-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .vibe-tag {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .hero-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .stat-item { text-align: right; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+    display: block;
+  }
+  .stat-label { color: var(--muted); font-size: 11px; font-family: 'DM Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+  .rainier .stat-num { color: var(--accent-rainier); }
+  .olympic .stat-num { color: var(--accent-olympic); }
+  .smokies .stat-num { color: var(--accent-smokies); }
+  .rainier .vibe-tag { background: rgba(59,130,246,0.15); color: var(--accent-rainier); border: 1px solid rgba(59,130,246,0.3); }
+  .olympic .vibe-tag { background: rgba(16,185,129,0.15); color: var(--accent-olympic); border: 1px solid rgba(16,185,129,0.3); }
+  .smokies .vibe-tag { background: rgba(245,158,11,0.15); color: var(--accent-smokies); border: 1px solid rgba(245,158,11,0.3); }
+
+  /* ── GRID LAYOUTS ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px; }
+  @media (max-width: 900px) { .two-col, .three-col { grid-template-columns: 1fr; } }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 36px 0 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .card-title {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ── ITINERARY TIMELINE ── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .day-block {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0 20px;
+    position: relative;
+  }
+  .day-block + .day-block { margin-top: 0; }
+  .day-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 18px;
+  }
+  .day-circle {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .rainier .day-circle { background: rgba(59,130,246,0.15); border: 1.5px solid var(--accent-rainier); color: var(--accent-rainier); }
+  .olympic .day-circle { background: rgba(16,185,129,0.15); border: 1.5px solid var(--accent-olympic); color: var(--accent-olympic); }
+  .smokies .day-circle { background: rgba(245,158,11,0.15); border: 1.5px solid var(--accent-smokies); color: var(--accent-smokies); }
+  .day-line {
+    width: 1.5px;
+    flex: 1;
+    min-height: 20px;
+    margin-top: 4px;
+  }
+  .rainier .day-line { background: linear-gradient(to bottom, rgba(59,130,246,0.3), transparent); }
+  .olympic .day-line { background: linear-gradient(to bottom, rgba(16,185,129,0.3), transparent); }
+  .smokies .day-line { background: linear-gradient(to bottom, rgba(245,158,11,0.3), transparent); }
+
+  .day-right { padding: 14px 0 24px; }
+  .day-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .day-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 3px 9px;
+    background: var(--surface2);
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .day-activities { display: flex; flex-direction: column; gap: 8px; }
+  .activity {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .activity-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    white-space: nowrap;
+    min-width: 52px;
+    padding-top: 1px;
+  }
+  .activity-content { flex: 1; }
+  .activity-name { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .activity-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .activity-badge {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .badge-hike { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); }
+  .badge-drive { background: rgba(107,114,128,0.15); color: #9ca3af; border: 1px solid rgba(107,114,128,0.3); }
+  .badge-food { background: rgba(236,72,153,0.15); color: #f472b6; border: 1px solid rgba(236,72,153,0.3); }
+  .badge-scenic { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+  .badge-event { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+  .badge-water { background: rgba(6,182,212,0.15); color: #22d3ee; border: 1px solid rgba(6,182,212,0.3); }
+  .badge-work { background: rgba(107,114,128,0.1); color: #6b7280; border: 1px solid rgba(107,114,128,0.2); }
+
+  /* ── TRAIL CARDS ── */
+  .trail-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    transition: border-color 0.2s;
+  }
+  .trail-card:hover { border-color: rgba(255,255,255,0.15); }
+  .trail-name { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .trail-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .trail-chip {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .trail-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .difficulty-bar {
+    height: 3px;
+    border-radius: 2px;
+    margin-top: 10px;
+    background: var(--border);
+    overflow: hidden;
+  }
+  .difficulty-fill { height: 100%; border-radius: 2px; }
+  .easy .difficulty-fill { background: #10b981; width: 25%; }
+  .moderate .difficulty-fill { background: #f59e0b; width: 55%; }
+  .strenuous .difficulty-fill { background: #ef4444; width: 85%; }
+
+  /* ── COST TABLE ── */
+  .cost-rows { display: flex; flex-direction: column; gap: 0; }
+  .cost-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .cost-row:last-child { border-bottom: none; }
+  .cost-label { color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .cost-value { font-family: 'DM Mono', monospace; font-weight: 500; color: var(--text); }
+  .cost-total {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0 0;
+    margin-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .cost-total-label { font-weight: 600; color: #fff; font-size: 14px; }
+  .cost-total-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 900;
+  }
+  .rainier .cost-total-value { color: var(--accent-rainier); }
+  .olympic .cost-total-value { color: var(--accent-olympic); }
+  .smokies .cost-total-value { color: var(--accent-smokies); }
+
+  /* ── FEEL CARD ── */
+  .feel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .feel-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #fff;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    border-left: 3px solid;
+  }
+  .rainier .feel-quote { border-color: var(--accent-rainier); }
+  .olympic .feel-quote { border-color: var(--accent-olympic); }
+  .smokies .feel-quote { border-color: var(--accent-smokies); }
+  .feel-points { display: flex; flex-direction: column; gap: 10px; }
+  .feel-point {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px; color: var(--muted); line-height: 1.5;
+  }
+  .feel-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── RATING BARS ── */
+  .rating-item { margin-bottom: 14px; }
+  .rating-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .rating-label { font-size: 12px; color: var(--muted); }
+  .rating-score { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; }
+  .rating-bar { height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .rating-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+  .rainier .rating-fill { background: linear-gradient(90deg, rgba(59,130,246,0.5), var(--accent-rainier)); }
+  .olympic .rating-fill { background: linear-gradient(90deg, rgba(16,185,129,0.5), var(--accent-olympic)); }
+  .smokies .rating-fill { background: linear-gradient(90deg, rgba(245,158,11,0.5), var(--accent-smokies)); }
+
+  /* ── COMPARE TABLE ── */
+  .compare-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  .compare-table th {
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .compare-table td {
+    padding: 14px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: var(--surface2); }
+  .compare-table .row-label {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .col-rainier { color: #93c5fd; }
+  .col-olympic { color: #6ee7b7; }
+  .col-smokies { color: #fcd34d; }
+  .winner-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-family: 'DM Mono', monospace;
+    padding: 2px 6px;
+    background: rgba(245,158,11,0.2);
+    color: var(--gold);
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+    border: 1px solid rgba(245,158,11,0.4);
+  }
+
+  /* ── RECOMMENDATION ── */
+  .rec-card {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08), var(--surface2));
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .rec-card::before {
+    content: '★';
+    position: absolute;
+    right: 32px; top: 32px;
+    font-size: 80px;
+    opacity: 0.04;
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+  }
+  .rec-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .rec-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .rec-body { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 700px; }
+  .rec-body strong { color: var(--text); }
+
+  /* ── WEATHER STRIP ── */
+  .weather-strip {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    align-items: center;
+  }
+  .weather-item {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 2px; min-width: 60px;
+  }
+  .weather-icon { font-size: 18px; }
+  .weather-day { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--muted); }
+  .weather-temp { font-size: 12px; font-weight: 600; color: var(--text); }
+  .weather-divider { width: 1px; height: 40px; background: var(--border); margin: 0 8px; }
+
+  /* ── FLIGHT INFO ── */
+  .flight-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .flight-icon { font-size: 16px; }
+  .flight-route { font-weight: 500; color: #fff; }
+  .flight-detail { color: var(--muted); font-size: 12px; }
+  .flight-price {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .rainier .flight-price { background: rgba(59,130,246,0.15); color: var(--accent-rainier); }
+  .olympic .flight-price { background: rgba(16,185,129,0.15); color: var(--accent-olympic); }
+  .smokies .flight-price { background: rgba(245,158,11,0.15); color: var(--accent-smokies); }
+
+  /* ── NOTE BOXES ── */
+  .note-box {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 12px 16px;
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #fcd34d;
+    line-height: 1.5;
+    margin-top: 12px;
+  }
+  .note-box.info {
+    background: rgba(59,130,246,0.06);
+    border-color: rgba(59,130,246,0.2);
+    color: #93c5fd;
+  }
+
+  /* ── SCROLL TOP ── */
+  .scroll-top {
+    position: fixed; bottom: 32px; right: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+    z-index: 200;
+  }
+  .scroll-top:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .header, .nav, .panels { padding-left: 20px; padding-right: 20px; }
+    .hero-inner { flex-direction: column; }
+    .hero-stats { flex-direction: row; }
+    .day-block { grid-template-columns: 50px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="badge">July 4th Weekend · 2026 · Group of 6–7</div>
+  <div class="header-top">
+    <div>
+      <h1>Pacific Northwest <em>&</em><br>Appalachian Trails</h1>
+      <p class="subtitle">Three national park experiences. One decision. This dashboard compares every angle so your group can vote with confidence.</p>
+      <div class="meta-pills">
+        <div class="pill">📅 Arrive <span>Wed July 1</span></div>
+        <div class="pill">✈️ Depart <span>Sun July 6 (evening)</span></div>
+        <div class="pill">👥 Group <span>6–7 People</span></div>
+        <div class="pill">💰 Budget <span>$900–$1,500/person</span></div>
+        <div class="pill">🏔️ Hiking <span>Easy–Moderate</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <button class="tab-btn" id="tab-rainier" onclick="showTab('rainier')">
+    <span class="dot" style="background:#3b82f6"></span> 🏔 Mt. Rainier
+  </button>
+  <button class="tab-btn" id="tab-olympic" onclick="showTab('olympic')">
+    <span class="dot" style="background:#10b981"></span> 🌲 Olympic NP
+  </button>
+  <button class="tab-btn" id="tab-smokies" onclick="showTab('smokies')">
+    <span class="dot" style="background:#f59e0b"></span> 🌿 Smoky Mtns
+  </button>
+  <button class="tab-btn" id="tab-compare" onclick="showTab('compare')">
+    <span class="dot" style="background:#f59e0b"></span> ⚖️ Compare All
+  </button>
+</nav>
+
+<!-- PANELS CONTAINER -->
+<div class="panels">
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- RAINIER PANEL -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div id="panel-rainier" class="panel rainier">
+    <div class="hero-card rainier">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <h2>Mount Rainier National Park</h2>
+          <p class="hero-tagline">One volcano seen from every angle. Alpine wildflower meadows in full July bloom, glaciers you can walk beneath, and an 14,411-ft stratovolcano dominating every view. The most concentrated "wow" in American hiking.</p>
+          <div class="vibe-tags">
+            <span class="vibe-tag">Alpine Focus</span>
+            <span class="vibe-tag">Wildflowers Peak</span>
+            <span class="vibe-tag">One Home Base</span>
+            <span class="vibe-tag">Easy Logistics</span>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">4</span>
+            <div class="stat-label">Hike Days</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">SEA</span>
+            <div class="stat-label">Gateway</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">8/10</span>
+            <div class="stat-label">Wow Factor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Logistics Overview</div>
+    <div class="three-col">
+      <div class="card">
+        <div class="card-title">✈️ Flights</div>
+        <div class="flight-row rainier">
+          <span class="flight-icon">🛫</span>
+          <div><div class="flight-route">DFW → SEA</div><div class="flight-detail">~3.5 hrs · Direct available</div></div>
+          <span class="flight-price">$220–$380 RT</span>
+        </div>
+        <div class="flight-row rainier">
+          <span class="flight-icon">🛬</span>
+          <div><div class="flight-route">SEA → DFW</div><div class="flight-detail">Sun evening · ~3.5 hrs</div></div>
+          <span class="flight-price">Included RT</span>
+        </div>
+        <div class="note-box info" style="margin-top:12px">Book early — July 4th week SEA flights sell fast. Alaska + Delta have best direct options.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🚗 Ground & Base</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span class="cost-label">Base Town</span><span class="cost-value">Packwood, WA</span></div>
+          <div class="cost-row"><span class="cost-label">From SEA to Base</span><span class="cost-value">~2.5 hrs</span></div>
+          <div class="cost-row"><span class="cost-label">Rental Cars (2)</span><span class="cost-value">~$100/day each</span></div>
+          <div class="cost-row"><span class="cost-label">Park Entry</span><span class="cost-value">$30/vehicle (7 days)</span></div>
+          <div class="cost-row"><span class="cost-label">Gas (total est.)</span><span class="cost-value">~$120–$180</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏠 Lodging</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span class="cost-label">Wed night (Seattle/Tacoma)</span><span class="cost-value">~$180–$280</span></div>
+          <div class="cost-row"><span class="cost-label">Thu–Sat nights (Packwood)</span><span class="cost-value">~$250–$450/night</span></div>
+          <div class="cost-row"><span class="cost-label">Style</span><span class="cost-value">Group cabin/vacation rental</span></div>
+          <div class="cost-row"><span class="cost-label">Sat night (near SEA)</span><span class="cost-value">~$200–$350</span></div>
+        </div>
+        <div class="note-box" style="margin-top:8px">⚠️ Book NOW. July 4th Packwood cabins are nearly sold out months in advance.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Day-by-Day Itinerary</div>
+    <div class="card">
+      <div class="timeline">
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">W1</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Arrival — Seattle / Tacoma</div>
+              <div class="day-date">Wed July 1</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Land at SEA, pick up 2 rental cars</div><div class="activity-desc">Drive ~1.5 hrs to Tacoma or ~2.5 hrs direct to Packwood if late flight allows</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">Night</div><div class="activity-content"><div class="activity-name">Overnight in Tacoma or Packwood</div><div class="activity-desc">Dinner at hotel restaurant or downtown Tacoma. Rest up — big days ahead.</div></div><span class="activity-badge badge-food">Food</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D1</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Paradise — The Crown Jewel</div>
+              <div class="day-date">Thu July 2</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">6:30 AM</div><div class="activity-content"><div class="activity-name">Leave Packwood → Narada Falls</div><div class="activity-desc">Stop on the drive up: 168-ft thundering waterfall. 0.2 mi walkout, 15 min.</div></div><span class="activity-badge badge-scenic">Scenic</span></div>
+              <div class="activity"><div class="activity-time">8:30 AM</div><div class="activity-content"><div class="activity-name">Skyline Loop Trail — Paradise</div><div class="activity-desc">5.5 mi · 1,700 ft gain · Moderate. The park's signature hike: wildflower meadows, Nisqually Glacier, Rainier towering above every step. Go counter-clockwise. 3–4 hrs.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">12:30 PM</div><div class="activity-content"><div class="activity-name">Lunch at Paradise Inn</div><div class="activity-desc">Historic 1916 lodge. Book in advance. Iconic spot inside the park.</div></div><span class="activity-badge badge-food">Food</span></div>
+              <div class="activity"><div class="activity-time">2:00 PM</div><div class="activity-content"><div class="activity-name">Stevens Canyon Road Scenic Drive</div><div class="activity-desc">Stop at Reflection Lakes (mirror image of Rainier), Box Canyon (180-ft gorge). 1.5 hr drive back toward Packwood.</div></div><span class="activity-badge badge-scenic">Scenic</span></div>
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Packwood Brewing Co.</div><div class="activity-desc">Fire pit, outdoor seating, craft beer, mountain town vibes. The perfect group debrief spot.</div></div><span class="activity-badge badge-food">Food</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D2</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Waterfalls + Ancient Forest</div>
+              <div class="day-date">Fri July 3</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">7:00 AM</div><div class="activity-content"><div class="activity-name">Comet Falls Trail</div><div class="activity-desc">3.8 mi · 1,200 ft gain · Moderate. Best waterfall in the park — 320 ft, one of tallest in Washington. Less crowded than Paradise. 2.5 hrs.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">11:00 AM</div><div class="activity-content"><div class="activity-name">Grove of the Patriarchs</div><div class="activity-desc">1.5 mi loop · Flat · Easy. Ancient old-growth trees up to 1,000 years old, some 50 ft wide. Suspension bridge over river. Genuinely humbling. 1 hr.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">1:00 PM</div><div class="activity-content"><div class="activity-name">Drive to Enumclaw / Hotel check-in</div><div class="activity-desc">Position for Sunrise tomorrow. Enumclaw has a real grocery store and a few solid dinner options.</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Group dinner + rest night</div><div class="activity-desc">Pre–July 4th chill. Stock up on snacks, drinks, sunscreen for tomorrow's full day.</div></div><span class="activity-badge badge-food">Food</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D3</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Sunrise — Highest Driveable Point</div>
+              <div class="day-date">Sat July 4</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">7:00 AM</div><div class="activity-content"><div class="activity-name">Naches Peak Loop</div><div class="activity-desc">5 mi · 900 ft gain · Easy–Moderate. Starts on Pacific Crest Trail. Unobstructed views straight at Rainier. Peak wildflower bloom window. 3 hrs.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">11:00 AM</div><div class="activity-content"><div class="activity-name">Sunrise Visitor Center (6,400 ft)</div><div class="activity-desc">Highest driveable point in the park. Views stretch to Mt. Baker, Glacier Peak, Mt. Adams. Sourdough Ridge easy walk (3 mi, flat) for those who want one more trail.</div></div><span class="activity-badge badge-scenic">Scenic</span></div>
+              <div class="activity"><div class="activity-time">2:00 PM</div><div class="activity-content"><div class="activity-name">Drive back toward Seattle area</div><div class="activity-desc">~1.5–2 hrs to South Seattle suburbs. Check into SeaTac area hotel.</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">July 4th in Tacoma</div><div class="activity-desc">Tacoma Waterfront has a great fireworks show over Commencement Bay. Downtown restaurants along Ruston Way. Group dinner + fireworks.</div></div><span class="activity-badge badge-event">July 4th 🎆</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D4</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Seattle Day + Fly Home</div>
+              <div class="day-date">Sun July 5</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">Morning</div><div class="activity-content"><div class="activity-name">Pike Place Market + Seattle waterfront</div><div class="activity-desc">The original Starbucks, fresh seafood vendors, the fish throw. 2–3 hours.</div></div><span class="activity-badge badge-scenic">Explore</span></div>
+              <div class="activity"><div class="activity-time">Afternoon</div><div class="activity-content"><div class="activity-name">Lunch + early airport drop</div><div class="activity-desc">Group seafood lunch at Pier 54. Drive to SEA (20–30 min from downtown).</div></div><span class="activity-badge badge-food">Food</span></div>
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Fly SEA → DFW</div><div class="activity-desc">Evening flights. Home by night.</div></div><span class="activity-badge badge-drive">Flight</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-title">Trail Guide — Easy to Moderate Only</div>
+    <div class="three-col">
+      <div class="trail-card moderate">
+        <div class="trail-name">🏔 Skyline Loop Trail</div>
+        <div class="trail-meta">
+          <span class="trail-chip">5.5 mi</span>
+          <span class="trail-chip">1,700 ft</span>
+          <span class="trail-chip">Moderate</span>
+          <span class="trail-chip">3–4 hrs</span>
+        </div>
+        <div class="trail-desc">The park's crown jewel. Wildflower meadows, glacial views, and Rainier dominating the skyline. The photo from Panorama Point is the one everyone takes home.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">🌲 Grove of the Patriarchs</div>
+        <div class="trail-meta">
+          <span class="trail-chip">1.5 mi</span>
+          <span class="trail-chip">50 ft</span>
+          <span class="trail-chip">Easy</span>
+          <span class="trail-chip">1 hr</span>
+        </div>
+        <div class="trail-desc">Ancient old-growth forest. Trees over 1,000 years old. Cross a suspension bridge. The quietest, most meditative experience in the park. Hidden gem.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:20%"></div></div>
+      </div>
+      <div class="trail-card moderate">
+        <div class="trail-name">💧 Comet Falls Trail</div>
+        <div class="trail-meta">
+          <span class="trail-chip">3.8 mi</span>
+          <span class="trail-chip">1,200 ft</span>
+          <span class="trail-chip">Moderate</span>
+          <span class="trail-chip">2.5 hrs</span>
+        </div>
+        <div class="trail-desc">Best waterfall in the park — 320 feet tall. Less crowded than Paradise because it starts from a separate trailhead. The reward-to-effort ratio is exceptional.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill"></div></div>
+      </div>
+      <div class="trail-card moderate">
+        <div class="trail-name">🌸 Naches Peak Loop</div>
+        <div class="trail-meta">
+          <span class="trail-chip">5 mi</span>
+          <span class="trail-chip">900 ft</span>
+          <span class="trail-chip">Easy–Mod</span>
+          <span class="trail-chip">3 hrs</span>
+        </div>
+        <div class="trail-desc">Starts on the Pacific Crest Trail. Peak wildflower bloom in early July. Views directly toward Rainier for the final 2 miles. One of the most photographed routes in the park.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="width:40%"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">🔭 Sourdough Ridge (Sunrise)</div>
+        <div class="trail-meta">
+          <span class="trail-chip">3 mi</span>
+          <span class="trail-chip">300 ft</span>
+          <span class="trail-chip">Easy</span>
+          <span class="trail-chip">1.5 hrs</span>
+        </div>
+        <div class="trail-desc">At 6,400 ft elevation. Views of 5 volcanoes on a clear day. Good recovery-day option or afternoon add-on after Naches Peak. Near the visitor center.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:22%"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">🌊 Narada Falls Viewpoint</div>
+        <div class="trail-meta">
+          <span class="trail-chip">0.2 mi</span>
+          <span class="trail-chip">Flat</span>
+          <span class="trail-chip">Easy</span>
+          <span class="trail-chip">15 min</span>
+        </div>
+        <div class="trail-desc">168-foot waterfall visible from the roadside pullout. A quick stop on the way to Paradise that gets its own "wow" moment. Great for photos.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:10%"></div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Experience Ratings & Cost Estimate</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">📊 Experience Ratings</div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Hiking Quality</span><span class="rating-score" style="color:#3b82f6">9.5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:95%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Visual Drama</span><span class="rating-score" style="color:#3b82f6">9.5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:95%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Group Logistics</span><span class="rating-score" style="color:#3b82f6">8.5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:85%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Food & Nightlife</span><span class="rating-score" style="color:#3b82f6">5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:50%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Beach / Water Access</span><span class="rating-score" style="color:#3b82f6">3/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:30%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Ease for Non-Hikers</span><span class="rating-score" style="color:#3b82f6">7/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:70%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Value for Money</span><span class="rating-score" style="color:#3b82f6">8/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:80%"></div></div></div>
+      </div>
+      <div class="card rainier">
+        <div class="card-title">💰 Per Person Cost Estimate</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span class="cost-label">✈️ Flights (RT, DFW–SEA)</span><span class="cost-value">$250–$380</span></div>
+          <div class="cost-row"><span class="cost-label">🏠 Lodging (5 nights split)</span><span class="cost-value">$240–$380</span></div>
+          <div class="cost-row"><span class="cost-label">🚗 Rental Cars + Gas</span><span class="cost-value">$80–$120</span></div>
+          <div class="cost-row"><span class="cost-label">🎟 Park Entry</span><span class="cost-value">$8–$10</span></div>
+          <div class="cost-row"><span class="cost-label">🍽 Food & Drinks</span><span class="cost-value">$200–$280</span></div>
+          <div class="cost-row"><span class="cost-label">🎯 Activities / Misc</span><span class="cost-value">$50–$100</span></div>
+        </div>
+        <div class="cost-total">
+          <span class="cost-total-label">Total Per Person</span>
+          <span class="cost-total-value">$828–$1,270</span>
+        </div>
+        <div class="note-box info" style="margin-top:14px">✅ Fits your $900–$1,500 budget. Lower end if group is 7 sharing cabin.</div>
+      </div>
+    </div>
+
+    <div class="section-title">What This Trip Feels Like</div>
+    <div class="feel-card rainier">
+      <div class="feel-quote">"Standing in a wildflower meadow with a 14,411-foot volcano filling the entire sky — no photo prepares you for this."</div>
+      <div class="feel-points">
+        <div class="feel-point"><span class="feel-icon">🌸</span><span>July is wildflower peak — the Paradise meadows are otherworldly in early July, with every color of alpine bloom carpeting the hillsides.</span></div>
+        <div class="feel-point"><span class="feel-icon">🎯</span><span>Simple, satisfying structure: one mountain, four perspectives, zero driving confusion. You wake up knowing exactly what you're doing.</span></div>
+        <div class="feel-point"><span class="feel-icon">⚠️</span><span>Nightlife is minimal. Packwood is a mountain town with a great brewery but it's not a bar-hopping scene. July 4th in Tacoma/Seattle compensates well.</span></div>
+        <div class="feel-point"><span class="feel-icon">📸</span><span>The photography is absolutely elite. Every person in your group will take a photo that becomes their phone wallpaper for a year.</span></div>
+        <div class="feel-point"><span class="feel-icon">🥾</span><span>Trails are accessible to moderate hikers. The biggest challenge is parking — arrive early (7 AM or before) and this is a breeze.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- OLYMPIC PANEL -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div id="panel-olympic" class="panel olympic">
+    <div class="hero-card olympic">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <h2>Olympic National Park</h2>
+          <p class="hero-tagline">Three worlds in one park: alpine meadows, ancient moss-draped rainforest, and wild Pacific coastline with sea stacks and tide pools. The most diverse national park in the lower 48. Unlike anything else you can do in 4 days.</p>
+          <div class="vibe-tags">
+            <span class="vibe-tag">3 Ecosystems</span>
+            <span class="vibe-tag">Real Ocean Beach</span>
+            <span class="vibe-tag">Most Unique</span>
+            <span class="vibe-tag">Two Bases Required</span>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">3</span>
+            <div class="stat-label">Ecosystems</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">SEA</span>
+            <div class="stat-label">Gateway</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">9/10</span>
+            <div class="stat-label">Diversity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Logistics Overview</div>
+    <div class="three-col">
+      <div class="card">
+        <div class="card-title">✈️ Flights</div>
+        <div class="flight-row olympic">
+          <span class="flight-icon">🛫</span>
+          <div><div class="flight-route">DFW → SEA</div><div class="flight-detail">~3.5 hrs · Direct on Alaska/AA/Delta</div></div>
+          <span class="flight-price">$220–$380 RT</span>
+        </div>
+        <div class="flight-row olympic">
+          <span class="flight-icon">🛬</span>
+          <div><div class="flight-route">SEA → DFW (Sunday)</div><div class="flight-detail">Evening departure from SeaTac</div></div>
+          <span class="flight-price">Included RT</span>
+        </div>
+        <div class="note-box info" style="margin-top:12px">Same airport as Rainier — both options use SEA for maximum flight choice.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🚗 Ground & Two-Base Strategy</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span class="cost-label">Base 1 (Thu)</span><span class="cost-value">Port Angeles</span></div>
+          <div class="cost-row"><span class="cost-label">Base 2 (Fri–Sat)</span><span class="cost-value">Near Forks / Kalaloch</span></div>
+          <div class="cost-row"><span class="cost-label">Ferry (optional)</span><span class="cost-value">Bainbridge → Kingston</span></div>
+          <div class="cost-row"><span class="cost-label">Rental Cars (2)</span><span class="cost-value">~$100/day each</span></div>
+          <div class="cost-row"><span class="cost-label">Important</span><span class="cost-value">More driving than Rainier</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏠 Lodging</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span class="cost-label">Wed night (Seattle)</span><span class="cost-value">~$180–$280</span></div>
+          <div class="cost-row"><span class="cost-label">Thu night (Port Angeles)</span><span class="cost-value">~$300–$500/night</span></div>
+          <div class="cost-row"><span class="cost-label">Fri–Sat (Forks area)</span><span class="cost-value">~$280–$450/night</span></div>
+          <div class="cost-row"><span class="cost-label">Sun night (back to SEA)</span><span class="cost-value">N/A — fly evening</span></div>
+        </div>
+        <div class="note-box" style="margin-top:8px">⚠️ Forks-area lodging options are limited. Book 3–4 months ahead for groups.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Day-by-Day Itinerary</div>
+    <div class="card">
+      <div class="timeline">
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">W1</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Arrival — Seattle</div>
+              <div class="day-date">Wed July 1</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Land at SEA → drive to Port Angeles</div><div class="activity-desc">Option A: 30-min Bainbridge Island Ferry (scenic, fun, recommended) + 1.5-hr drive. Option B: 2.5-hr drive around Puget Sound. Arrive ~9–10 PM.</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">Night</div><div class="activity-content"><div class="activity-name">Overnight Port Angeles — dinner + explore waterfront</div><div class="activity-desc">Port Angeles is a real town with great seafood. Try Downriggers on the harbor or Next Door Gastropub. July 4th celebration starts being set up downtown — vibey.</div></div><span class="activity-badge badge-food">Food</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D1</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Alpine Day — Hurricane Ridge + Lake Crescent</div>
+              <div class="day-date">Thu July 2</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">7:30 AM</div><div class="activity-content"><div class="activity-name">Drive up to Hurricane Ridge (45 min, 17 miles climbing)</div><div class="activity-desc">The road itself is a scenic experience. Every turn reveals a bigger view of the Olympic Mountains.</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">8:30 AM</div><div class="activity-content"><div class="activity-name">Hurricane Hill Trail</div><div class="activity-desc">3.2 mi · 650 ft gain · Easy–Moderate. 360° panorama of the Olympics, Strait of Juan de Fuca, Vancouver Island, Canada. Views start before leaving the parking lot. 2 hrs.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">12:00 PM</div><div class="activity-content"><div class="activity-name">Lunch in Port Angeles → drive to Lake Crescent</div><div class="activity-desc">30-min drive west on Hwy 101. Stop at Lake Crescent Lodge for coffee and the view.</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">1:30 PM</div><div class="activity-content"><div class="activity-name">Marymere Falls + Lake Crescent Kayak</div><div class="activity-desc">Falls: 1.7 mi, flat, easy — old-growth forest walk to a 90-ft waterfall. Then rent kayaks/paddleboards at Lake Crescent Lodge. Deep glacial lake, impossibly blue water. Your water moment today.</div></div><span class="activity-badge badge-water">Water</span></div>
+              <div class="activity"><div class="activity-time">4:30 PM</div><div class="activity-content"><div class="activity-name">Sol Duc Falls (30 min detour)</div><div class="activity-desc">1.8 mi round trip, flat, easy. Four-channel waterfall cascading into rocky canyon. If the group has energy — absolutely worth it. 1 hr.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Drive to Forks area — check in to lodging</div><div class="activity-desc">~1.5 hrs from Lake Crescent. Dinner at Forks (limited options) or cook at the rental. Stock up at Forks grocery store.</div></div><span class="activity-badge badge-food">Food</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D2</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Rainforest + Wild Pacific Coast</div>
+              <div class="day-date">Fri July 3</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">7:30 AM</div><div class="activity-content"><div class="activity-name">Hoh Rainforest — Hall of Mosses + Spruce Nature Trail</div><div class="activity-desc">Arrive by 8:30 AM before parking fills. Hall of Mosses: 0.8 mi, flat — ancient moss-draped trees in otherworldly green light. Spruce Trail: 1.2 mi, quieter, follows the Hoh River. 2.5 hrs total.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">11:00 AM</div><div class="activity-content"><div class="activity-name">Drive south → Ruby Beach</div><div class="activity-desc">30 min drive. Sea stacks, driftwood sculpture fields, tide pools. Walk for 30–60 min. Check tide chart — aim for low tide. One of the most photographed beach scenes in the Pacific Northwest.</div></div><span class="activity-badge badge-water">Beach</span></div>
+              <div class="activity"><div class="activity-time">1:00 PM</div><div class="activity-content"><div class="activity-name">Kalaloch Lodge lunch + beach exploration</div><div class="activity-desc">Restaurant with ocean-view deck. Clam chowder is legendary. Kalaloch Beach 3 is just below — pristine, driftwood-covered Pacific beach. Afternoon free to explore.</div></div><span class="activity-badge badge-food">Food</span></div>
+              <div class="activity"><div class="activity-time">3:30 PM</div><div class="activity-content"><div class="activity-name">Drive back north — sunset from Rialto Beach</div><div class="activity-desc">1 hr north. Watch the Pacific sunset over sea stacks from Rialto Beach. One of the most stunning sunset spots in America. Pre-4th of July night ambiance.</div></div><span class="activity-badge badge-scenic">Scenic</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D3</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Rialto Beach + July 4th in Port Angeles</div>
+              <div class="day-date">Sat July 4</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">8:00 AM</div><div class="activity-content"><div class="activity-name">Rialto Beach → Hole-in-the-Wall</div><div class="activity-desc">4 mi round trip · Flat beach walk · Easy. Enormous sea stacks, driftwood tunnels, sea arches. The defining coastal hike of Olympic. Check tide chart — go at low tide. 2.5 hrs.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">11:30 AM</div><div class="activity-content"><div class="activity-name">Drive back to Port Angeles (2.5 hrs)</div><div class="activity-desc">Pack up Forks lodging, head back north toward Port Angeles for July 4th. Stop at Lake Crescent overlook on the way if time allows.</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">3:00 PM</div><div class="activity-content"><div class="activity-name">Port Angeles July 4th Festival — City Pier</div><div class="activity-desc">Hot air balloon rides, parade at 6 PM, live music, U.S. Army Band concert, hot dog eating contest. The largest July 4th celebration on the Olympic Peninsula.</div></div><span class="activity-badge badge-event">July 4th 🎆</span></div>
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Fireworks over Port Angeles Harbor</div><div class="activity-desc">Fireworks over Pacific harbor water. One of the most beautiful settings imaginable for a July 4th show. Dinner at Downriggers waterfront beforehand.</div></div><span class="activity-badge badge-event">Fireworks 🎆</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D4</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Final Morning + Fly Home</div>
+              <div class="day-date">Sun July 5</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">Morning</div><div class="activity-content"><div class="activity-name">Optional: Quick Klahhane Ridge walk</div><div class="activity-desc">If the group has energy, drive up to Hurricane Ridge one more time for wildflowers and a final mountain view. The Meadow Loop (1.6 mi, flat) is the lightest option.</div></div><span class="activity-badge badge-hike">Optional</span></div>
+              <div class="activity"><div class="activity-time">11:00 AM</div><div class="activity-content"><div class="activity-name">Ferry back to Seattle (scenic) or drive around</div><div class="activity-desc">Bainbridge ferry from Kingston. 35 min on the water with views back toward the Olympics. Grab coffee in downtown Seattle, walk Pike Place.</div></div><span class="activity-badge badge-drive">Drive/Ferry</span></div>
+              <div class="activity"><div class="activity-time">Afternoon</div><div class="activity-content"><div class="activity-name">Seattle lunch + airport</div><div class="activity-desc">Seafood lunch. Drop rental cars at SEA. Evening flights home.</div></div><span class="activity-badge badge-food">Food</span></div>
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Fly SEA → DFW</div><div class="activity-desc">Home by night.</div></div><span class="activity-badge badge-drive">Flight</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-title">Trail Guide — Three Ecosystems</div>
+    <div class="three-col">
+      <div class="trail-card moderate">
+        <div class="trail-name">🏔 Hurricane Hill Trail</div>
+        <div class="trail-meta"><span class="trail-chip">3.2 mi</span><span class="trail-chip">650 ft</span><span class="trail-chip">Easy–Mod</span><span class="trail-chip">2 hrs</span></div>
+        <div class="trail-desc">The alpine experience. 360° panorama from the Olympic Mountains to Canada on a clear day. Views start from the parking lot — even non-hikers get the payoff.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:35%"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">🌿 Hall of Mosses</div>
+        <div class="trail-meta"><span class="trail-chip">0.8 mi</span><span class="trail-chip">Flat</span><span class="trail-chip">Easy</span><span class="trail-chip">45 min</span></div>
+        <div class="trail-desc">The most otherworldly 0.8 miles in America. Ancient maple trees draped in impossibly thick moss. The group member who "doesn't hike" will call this their favorite moment.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:15%"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">🌊 Rialto Beach to Hole-in-the-Wall</div>
+        <div class="trail-meta"><span class="trail-chip">4 mi</span><span class="trail-chip">Flat</span><span class="trail-chip">Easy</span><span class="trail-chip">2.5 hrs</span></div>
+        <div class="trail-desc">Beach hiking along wild Pacific coastline. Walk through sea arches, past giant sea stacks, over driftwood. The water experience your group wanted. Go at low tide.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:20%"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">🍃 Marymere Falls</div>
+        <div class="trail-meta"><span class="trail-chip">1.7 mi</span><span class="trail-chip">200 ft</span><span class="trail-chip">Easy</span><span class="trail-chip">1 hr</span></div>
+        <div class="trail-desc">Old-growth forest walk to a beautiful 90-foot cascade. Very accessible. Pairs perfectly with kayaking on Lake Crescent right after. Short but genuinely lovely.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:22%"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">💧 Sol Duc Falls</div>
+        <div class="trail-meta"><span class="trail-chip">1.8 mi</span><span class="trail-chip">Flat</span><span class="trail-chip">Easy</span><span class="trail-chip">1 hr</span></div>
+        <div class="trail-desc">Four-channel waterfall splitting around a basalt pillar before cascading 50 feet. Ancient forest surrounds the path. One of the most photographed falls in the PNW.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:18%"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">🦀 Ruby Beach</div>
+        <div class="trail-meta"><span class="trail-chip">1+ mi</span><span class="trail-chip">Flat</span><span class="trail-chip">Easy</span><span class="trail-chip">30–60 min</span></div>
+        <div class="trail-desc">Sea stacks, tide pools, driftwood fields, crashing Pacific waves. Walk as far as you want. Tide pools at low tide reveal starfish, crabs, anemones. Surreal scenery.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:12%"></div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Experience Ratings & Cost Estimate</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">📊 Experience Ratings</div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Ecosystem Diversity</span><span class="rating-score" style="color:#10b981">10/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:100%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Beach / Water Access</span><span class="rating-score" style="color:#10b981">9.5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:95%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Ease for Non-Hikers</span><span class="rating-score" style="color:#10b981">9/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:90%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Visual Drama</span><span class="rating-score" style="color:#10b981">9/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:90%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">July 4th Experience</span><span class="rating-score" style="color:#10b981">8.5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:85%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Group Logistics</span><span class="rating-score" style="color:#10b981">6.5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:65%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Food & Nightlife</span><span class="rating-score" style="color:#10b981">5.5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:55%"></div></div></div>
+      </div>
+      <div class="card olympic">
+        <div class="card-title">💰 Per Person Cost Estimate</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span class="cost-label">✈️ Flights (RT, DFW–SEA)</span><span class="cost-value">$250–$380</span></div>
+          <div class="cost-row"><span class="cost-label">🏠 Lodging (5 nights, 2 bases)</span><span class="cost-value">$280–$420</span></div>
+          <div class="cost-row"><span class="cost-label">🚗 Rental Cars + Gas + Ferry</span><span class="cost-value">$100–$150</span></div>
+          <div class="cost-row"><span class="cost-label">🎟 Park Entry</span><span class="cost-value">$8–$10</span></div>
+          <div class="cost-row"><span class="cost-label">🍽 Food & Drinks</span><span class="cost-value">$200–$280</span></div>
+          <div class="cost-row"><span class="cost-label">🚣 Kayak Rental (Lake Crescent)</span><span class="cost-value">$25–$40</span></div>
+          <div class="cost-row"><span class="cost-label">🎯 Misc</span><span class="cost-value">$50–$80</span></div>
+        </div>
+        <div class="cost-total">
+          <span class="cost-total-label">Total Per Person</span>
+          <span class="cost-total-value">$913–$1,360</span>
+        </div>
+        <div class="note-box info" style="margin-top:14px">✅ Fits your budget. Forks-area lodging is more limited — book 3–4 months ahead.</div>
+      </div>
+    </div>
+
+    <div class="section-title">What This Trip Feels Like</div>
+    <div class="feel-card olympic">
+      <div class="feel-quote">"In one weekend you go from standing in a mountain meadow at 5,700 feet to walking behind a Pacific sea arch with waves crashing around you. No other park does this."</div>
+      <div class="feel-points">
+        <div class="feel-point"><span class="feel-icon">🌊</span><span>The Pacific coastline is genuinely unlike anything in the other two options. Sea stacks, driftwood, tide pools — it satisfies the beach craving while being dramatically different from a typical beach vacation.</span></div>
+        <div class="feel-point"><span class="feel-icon">🌿</span><span>The Hoh Rainforest stops every single person cold. Even the group skeptics who "don't care about nature" go quiet when they walk into that ancient moss cathedral.</span></div>
+        <div class="feel-point"><span class="feel-icon">⚠️</span><span>The two-base logistics add complexity. Moving from Port Angeles to Forks takes time and mental energy — budget accordingly and keep days 1–3 lighter on driving.</span></div>
+        <div class="feel-point"><span class="feel-icon">🎆</span><span>July 4th fireworks over Port Angeles Harbor is genuinely stunning — Pacific Northwest setting, military parade, harbor fireworks. One of the best-kept July 4th secrets in the country.</span></div>
+        <div class="feel-point"><span class="feel-icon">🥾</span><span>This is the friendliest park for non-hikers. The most iconic experiences (Hall of Mosses, Ruby Beach) are flat and require almost no fitness. Everyone participates equally.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- SMOKIES PANEL -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div id="panel-smokies" class="panel smokies">
+    <div class="hero-card smokies">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <h2>Great Smoky Mountains + Gatlinburg</h2>
+          <p class="hero-tagline">America's most visited national park — and for good reason. Ancient Appalachian forests, thundering waterfalls, wild elk herds, and a real mountain town with craft distilleries, live music, and the most festive July 4th scene of the three options.</p>
+          <div class="vibe-tags">
+            <span class="vibe-tag">Best Nightlife</span>
+            <span class="vibe-tag">Most July 4th</span>
+            <span class="vibe-tag">One Home Base</span>
+            <span class="vibe-tag">Easiest Flights</span>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-num">FREE</span>
+            <div class="stat-label">Park Entry</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">TYS</span>
+            <div class="stat-label">Gateway</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">10/10</span>
+            <div class="stat-label">July 4th Vibe</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Logistics Overview</div>
+    <div class="three-col">
+      <div class="card">
+        <div class="card-title">✈️ Flights</div>
+        <div class="flight-row smokies">
+          <span class="flight-icon">🛫</span>
+          <div><div class="flight-route">DFW → TYS (Knoxville)</div><div class="flight-detail">~2.5 hrs · AA direct, connect via ATL/CLT</div></div>
+          <span class="flight-price">$180–$320 RT</span>
+        </div>
+        <div class="flight-row smokies">
+          <span class="flight-icon">🛬</span>
+          <div><div class="flight-route">TYS → DFW (Sunday)</div><div class="flight-detail">Evening · 2.5 hrs direct</div></div>
+          <span class="flight-price">Included RT</span>
+        </div>
+        <div class="note-box info" style="margin-top:12px">Cheapest flights of the three options. DFW → TYS has American direct and multiple connection options. Very easy.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🚗 Ground & One-Base Strategy</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span class="cost-label">Arrival Night</span><span class="cost-value">Downtown Knoxville</span></div>
+          <div class="cost-row"><span class="cost-label">Main Base (4 nights)</span><span class="cost-value">Group Cabin, Gatlinburg</span></div>
+          <div class="cost-row"><span class="cost-label">TYS to Gatlinburg</span><span class="cost-value">45 min</span></div>
+          <div class="cost-row"><span class="cost-label">Rental Cars (2)</span><span class="cost-value">~$90/day each</span></div>
+          <div class="cost-row"><span class="cost-label">Park Entry</span><span class="cost-value">FREE + $5/day parking</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏠 Lodging — Group Cabin</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span class="cost-label">Wed night (Knoxville hotel)</span><span class="cost-value">~$180–$280</span></div>
+          <div class="cost-row"><span class="cost-label">Thu–Sun (Gatlinburg cabin, 4 nights)</span><span class="cost-value">~$350–$600/night</span></div>
+          <div class="cost-row"><span class="cost-label">Cabin style</span><span class="cost-value">Hot tub, deck, mountain view</span></div>
+          <div class="cost-row"><span class="cost-label">Per person (4 nights cabin)</span><span class="cost-value">~$200–$360</span></div>
+        </div>
+        <div class="note-box" style="margin-top:8px">⚠️ Book cabin NOW — July 4th Gatlinburg cabins sell out 4–6 months in advance.</div>
+      </div>
+    </div>
+
+    <div class="section-title">Day-by-Day Itinerary</div>
+    <div class="card">
+      <div class="timeline">
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">W1</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Arrival — Knoxville</div>
+              <div class="day-date">Wed July 1</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Land at TYS → check into Knoxville hotel</div><div class="activity-desc">45 min from airport to downtown. Easier and cheaper than the PNW options.</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">Night</div><div class="activity-content"><div class="activity-name">Dinner on Market Square, Old City nightlife</div><div class="activity-desc">Barley's Taproom for craft beer and live music. Knox Box (karaoke bar) if the group is feeling it. Real first-night energy.</div></div><span class="activity-badge badge-food">Food + Drinks</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D1</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Cades Cove + Abrams Falls + Roaring Fork</div>
+              <div class="day-date">Thu July 2</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">8:00 AM</div><div class="activity-content"><div class="activity-name">Drive to Gatlinburg, check into cabin</div><div class="activity-desc">45 min from Knoxville. Drop bags, load up with snacks and water, head straight into the park.</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">9:30 AM</div><div class="activity-content"><div class="activity-name">Cades Cove 11-Mile Scenic Loop Drive</div><div class="activity-desc">Historic 18th–19th century homesteads, mills, churches. High wildlife probability — deer, turkey, black bear. Drive at 15 mph, stop freely. Plan 2 hrs.</div></div><span class="activity-badge badge-scenic">Scenic Drive</span></div>
+              <div class="activity"><div class="activity-time">12:00 PM</div><div class="activity-content"><div class="activity-name">Abrams Falls Trail</div><div class="activity-desc">5 mi · 340 ft · Moderate. Trailhead right off the loop. Forest wildflowers, old-growth trees, swimming hole at the base of the 20-ft falls. Best swimming in the park. 2.5 hrs.</div></div><span class="activity-badge badge-water">Hike + Swim</span></div>
+              <div class="activity"><div class="activity-time">4:00 PM</div><div class="activity-content"><div class="activity-name">Roaring Fork Motor Nature Trail</div><div class="activity-desc">5.4-mile one-way scenic drive from Gatlinburg. Historic log cabins, old-growth forest, Grotto Falls trailhead (walk-behind waterfall, 2.6 mi if group has energy). 1.5 hrs leisurely.</div></div><span class="activity-badge badge-scenic">Scenic Drive</span></div>
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Sugarlands Distilling Co. + Gatlinburg Strip</div><div class="activity-desc">Group moonshine tastings at Sugarlands. Walk the Parkway, find your vibe. Ole Red (Blake Shelton's bar) has rooftop patio and live music until late.</div></div><span class="activity-badge badge-food">Food + Drinks</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D2</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Alum Cave + Newfound Gap + Pre-Midnight Parade</div>
+              <div class="day-date">Fri July 3</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">6:30 AM</div><div class="activity-content"><div class="activity-name">Alum Cave Trail — Start Early</div><div class="activity-desc">4.4 mi · 1,161 ft · Moderate. The park's best trail: Arch Rock (walk through a natural stone archway), Inspiration Point, and the massive overhanging cave bluffs. 3–3.5 hrs. Parking fills by 9 AM.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">11:00 AM</div><div class="activity-content"><div class="activity-name">Newfound Gap Road — Scenic Drive Through</div><div class="activity-desc">Drive US-441 through the heart of the park. Stop at Newfound Gap Overlook (5,046 ft, Tennessee/North Carolina state line). Then drive 7 miles up to Clingmans Dome — highest point in TN. 1.3-mi paved loop to the observation tower. 2 hrs total.</div></div><span class="activity-badge badge-scenic">Scenic Drive</span></div>
+              <div class="activity"><div class="activity-time">2:00 PM</div><div class="activity-content"><div class="activity-name">Rest at cabin, group dinner early</div><div class="activity-desc">You're staying up until midnight. Take it easy this afternoon. Pre-game at the cabin, hot tub, mountain deck time.</div></div><span class="activity-badge badge-food">Rest</span></div>
+              <div class="activity"><div class="activity-time">11:30 PM</div><div class="activity-content"><div class="activity-name">Gatlinburg Midnight Parade 🎆</div><div class="activity-desc">America's first July 4th parade, starting at 12:01 AM. Patriotic floats, marching bands, military honors. Thousands line the Parkway. Genuinely unique experience.</div></div><span class="activity-badge badge-event">Midnight 🎆</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D3</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Rainbow Falls + Anakeesta + Fireworks</div>
+              <div class="day-date">Sat July 4</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">Sleep in</div><div class="activity-content"><div class="activity-name">Late start — 8:30 AM departure</div><div class="activity-desc">You were up until 1 AM for the parade. Let people sleep. This is the biggest day — pace accordingly.</div></div><span class="activity-badge badge-work">Rest</span></div>
+              <div class="activity"><div class="activity-time">9:00 AM</div><div class="activity-content"><div class="activity-name">Rainbow Falls Trail</div><div class="activity-desc">5.4 mi · 1,617 ft · Moderate. Highest single-drop waterfall in the Smokies (80 ft). Named for the rainbow in its mist on sunny afternoons. Steady uphill the whole way but worth it. 3.5 hrs.</div></div><span class="activity-badge badge-hike">Hike</span></div>
+              <div class="activity"><div class="activity-time">1:30 PM</div><div class="activity-content"><div class="activity-name">Cabin rest + hot tub</div><div class="activity-desc">Two hours off. The cabin's hot tub with mountain views is the perfect recovery before the evening.</div></div><span class="activity-badge badge-water">Rest</span></div>
+              <div class="activity"><div class="activity-time">4:30 PM</div><div class="activity-content"><div class="activity-name">Anakeesta Mountaintop Park — sunset gondola</div><div class="activity-desc">Gondola to mountaintop park above Gatlinburg. Fire pits, rooftop bar, dinner at Cliff Top Restaurant, panoramic mountain views. Book gondola tickets in advance.</div></div><span class="activity-badge badge-event">Evening</span></div>
+              <div class="activity"><div class="activity-time">10:00 PM</div><div class="activity-content"><div class="activity-name">Gatlinburg Fireworks Show</div><div class="activity-desc">Best viewed from Anakeesta hilltop or the Bypass overlook for bird's-eye view over the entire Gatlinburg valley. 10 PM launch.</div></div><span class="activity-badge badge-event">Fireworks 🎆</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <div class="day-left">
+            <div class="day-circle">D4</div>
+            <div class="day-line"></div>
+          </div>
+          <div class="day-right">
+            <div class="day-header">
+              <div class="day-title">Greenbrier + Cataloochee Elk Valley + Fly Home</div>
+              <div class="day-date">Sun July 5</div>
+            </div>
+            <div class="day-activities">
+              <div class="activity"><div class="activity-time">7:30 AM</div><div class="activity-content"><div class="activity-name">Greenbrier — Porters Creek Trail</div><div class="activity-desc">4 mi · 800 ft · Easy–Moderate. Quiet river valley almost nobody visits. Stone walls, historic ruins, old-growth forest, small waterfall at the end. Swimming holes in the Little Pigeon River. 2.5 hrs.</div></div><span class="activity-badge badge-hike">Hidden Gem</span></div>
+              <div class="activity"><div class="activity-time">11:00 AM</div><div class="activity-content"><div class="activity-name">Cataloochee Valley — Elk Herd</div><div class="activity-desc">1.5 hrs from Gatlinburg. The only place to see wild elk in the eastern US. Restored 19th-century Appalachian homesteads and churches. Elk emerge into meadows around 3–4 PM. But with an early visit you can still see them grazing. Drive the narrow winding road — part of the experience.</div></div><span class="activity-badge badge-scenic">Wildlife</span></div>
+              <div class="activity"><div class="activity-time">2:30 PM</div><div class="activity-content"><div class="activity-name">Drive to Knoxville airport</div><div class="activity-desc">~1.5 hrs from Cataloochee. Return rental cars at TYS.</div></div><span class="activity-badge badge-drive">Drive</span></div>
+              <div class="activity"><div class="activity-time">Evening</div><div class="activity-content"><div class="activity-name">Fly TYS → DFW</div><div class="activity-desc">Home by night. Quick, easy flight back.</div></div><span class="activity-badge badge-drive">Flight</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-title">Trail Guide — Waterfall Heaven</div>
+    <div class="three-col">
+      <div class="trail-card moderate">
+        <div class="trail-name">🪨 Alum Cave Trail</div>
+        <div class="trail-meta"><span class="trail-chip">4.4 mi</span><span class="trail-chip">1,161 ft</span><span class="trail-chip">Moderate</span><span class="trail-chip">3–3.5 hrs</span></div>
+        <div class="trail-desc">The park's best moderate trail. Walk through Arch Rock (a literal tunnel through stone), reach Inspiration Point, end at massive cave bluffs with mountain views. Start by 7 AM — lot fills fast.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill"></div></div>
+      </div>
+      <div class="trail-card moderate">
+        <div class="trail-name">💧 Rainbow Falls</div>
+        <div class="trail-meta"><span class="trail-chip">5.4 mi</span><span class="trail-chip">1,617 ft</span><span class="trail-chip">Moderate</span><span class="trail-chip">3.5 hrs</span></div>
+        <div class="trail-desc">Tallest single-drop waterfall in the Smokies. Afternoon light creates actual rainbows in the mist on sunny days. Steady uphill but very well maintained. The reward shot is worth every step.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill"></div></div>
+      </div>
+      <div class="trail-card moderate">
+        <div class="trail-name">🌊 Abrams Falls (Cades Cove)</div>
+        <div class="trail-meta"><span class="trail-chip">5 mi</span><span class="trail-chip">340 ft</span><span class="trail-chip">Moderate</span><span class="trail-chip">2.5 hrs</span></div>
+        <div class="trail-desc">Old-growth forest, summer wildflowers, and a powerful 20-ft waterfall with the best swimming hole in the park at the base. The water experience in this option. Trailhead off Cades Cove loop.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">🌲 Porters Creek Trail (Greenbrier)</div>
+        <div class="trail-meta"><span class="trail-chip">4 mi</span><span class="trail-chip">800 ft</span><span class="trail-chip">Easy–Mod</span><span class="trail-chip">2.5 hrs</span></div>
+        <div class="trail-desc">The quiet alternative nobody visits. Old-growth hemlock, stone walls and farmstead ruins, a small waterfall at the end. River swimming holes. You'll likely have it mostly to yourselves.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:35%"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">🦌 Cataloochee Valley Loop</div>
+        <div class="trail-meta"><span class="trail-chip">Flat walk</span><span class="trail-chip">Minimal gain</span><span class="trail-chip">Easy</span><span class="trail-chip">1–2 hrs</span></div>
+        <div class="trail-desc">Not a hike so much as a wildlife experience. Walk the valley floor past 19th-century homesteads. Wild elk graze in the meadows. The only place in the eastern US where you can see this.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:15%"></div></div>
+      </div>
+      <div class="trail-card easy">
+        <div class="trail-name">💧 Grotto Falls (Roaring Fork)</div>
+        <div class="trail-meta"><span class="trail-chip">2.6 mi</span><span class="trail-chip">544 ft</span><span class="trail-chip">Easy–Mod</span><span class="trail-chip">2 hrs</span></div>
+        <div class="trail-desc">The only waterfall in the park you can walk behind. 25-foot cascade with cool mist — perfect on a hot July afternoon. Right off the Roaring Fork scenic drive. Pairs perfectly with Day 1.</div>
+        <div class="difficulty-bar"><div class="difficulty-fill" style="background:#10b981;width:30%"></div></div>
+      </div>
+    </div>
+
+    <div class="section-title">Experience Ratings & Cost Estimate</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">📊 Experience Ratings</div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">July 4th Celebration</span><span class="rating-score" style="color:#f59e0b">10/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:100%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Food & Nightlife</span><span class="rating-score" style="color:#f59e0b">9/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:90%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Group Logistics</span><span class="rating-score" style="color:#f59e0b">9/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:90%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Value for Money</span><span class="rating-score" style="color:#f59e0b">9/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:90%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Waterfall Quality</span><span class="rating-score" style="color:#f59e0b">8.5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:85%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Hiking Drama</span><span class="rating-score" style="color:#f59e0b">7.5/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:75%"></div></div></div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Beach / Water Access</span><span class="rating-score" style="color:#f59e0b">6/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:60%"></div></div></div>
+      </div>
+      <div class="card smokies">
+        <div class="card-title">💰 Per Person Cost Estimate</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span class="cost-label">✈️ Flights (RT, DFW–TYS)</span><span class="cost-value">$180–$320</span></div>
+          <div class="cost-row"><span class="cost-label">🏠 Lodging (5 nights, cabin)</span><span class="cost-value">$200–$360</span></div>
+          <div class="cost-row"><span class="cost-label">🚗 Rental Cars + Gas</span><span class="cost-value">$75–$110</span></div>
+          <div class="cost-row"><span class="cost-label">🎟 Park Entry (FREE! + parking)</span><span class="cost-value">$15–$25</span></div>
+          <div class="cost-row"><span class="cost-label">🍽 Food, Drinks, Distilleries</span><span class="cost-value">$220–$300</span></div>
+          <div class="cost-row"><span class="cost-label">🎭 Anakeesta + Activities</span><span class="cost-value">$60–$100</span></div>
+          <div class="cost-row"><span class="cost-label">🎯 Misc</span><span class="cost-value">$40–$70</span></div>
+        </div>
+        <div class="cost-total">
+          <span class="cost-total-label">Total Per Person</span>
+          <span class="cost-total-value">$790–$1,285</span>
+        </div>
+        <div class="note-box info" style="margin-top:14px">✅ Lowest cost of the three — park entry is FREE and DFW → TYS flights are significantly cheaper.</div>
+      </div>
+    </div>
+
+    <div class="section-title">What This Trip Feels Like</div>
+    <div class="feel-card smokies">
+      <div class="feel-quote">"Your group does the first July 4th parade in America at midnight, sleeps in a cabin hot tub, sees wild elk in an ancient Appalachian valley, and walks behind a 80-foot waterfall. This is the most complete trip of the three."</div>
+      <div class="feel-points">
+        <div class="feel-point"><span class="feel-icon">🎆</span><span>Gatlinburg owns July 4th in a way that neither Port Angeles nor Tacoma can match. The midnight parade, Anakeesta rooftop, distillery crawl, and fireworks over the valley is a full-day cultural experience.</span></div>
+        <div class="feel-point"><span class="feel-icon">🍺</span><span>The food and nightlife are genuinely excellent for a mountain town. Ole Red, Sugarlands, Jason Aldean's bar, the Gatlinburg strip — your group has options every night without driving.</span></div>
+        <div class="feel-point"><span class="feel-icon">🦌</span><span>Cataloochee Valley is the trip's wildcard moment. Nobody expects to see a herd of wild elk peacefully grazing next to 19th-century log cabins in Appalachia. It's unforgettable.</span></div>
+        <div class="feel-point"><span class="feel-icon">⚠️</span><span>The Smokies doesn't have the visual drama of Rainier or the oceanic diversity of Olympic. It's lush and green rather than volcanic and glacial. Some hikers find it "too forested" — manage expectations.</span></div>
+        <div class="feel-point"><span class="feel-icon">💰</span><span>Cleanest logistics and best value. One base, easy flights, free park entry, group cabin. You spend less time managing logistics and more time having fun.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- COMPARE PANEL -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div id="panel-compare" class="panel">
+
+    <div class="section-title" style="margin-top:32px">Side-by-Side Comparison</div>
+
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th style="width:200px">Category</th>
+            <th><span style="color:#3b82f6">🏔 Mt. Rainier</span></th>
+            <th><span style="color:#10b981">🌲 Olympic NP</span></th>
+            <th><span style="color:#f59e0b">🌿 Smoky Mtns</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="row-label">✈️ Flight from DFW</div></td>
+            <td class="col-rainier">DFW → SEA (~3.5 hrs)<br><small style="color:#6b7a94">$220–$380 RT</small></td>
+            <td class="col-olympic">DFW → SEA (~3.5 hrs)<br><small style="color:#6b7a94">$220–$380 RT</small></td>
+            <td class="col-smokies">DFW → TYS (~2.5 hrs) <span class="winner-badge">CHEAPEST</span><br><small style="color:#6b7a94">$180–$320 RT</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">🏠 Lodging Style</div></td>
+            <td class="col-rainier">Cabin/rental, Packwood<br><small style="color:#6b7a94">1 base, simple</small></td>
+            <td class="col-olympic">2 bases: Port Angeles + Forks<br><small style="color:#6b7a94">More moving around</small></td>
+            <td class="col-smokies">Group cabin, Gatlinburg <span class="winner-badge">BEST VALUE</span><br><small style="color:#6b7a94">1 base, hot tub + deck</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">💰 Est. Cost/Person</div></td>
+            <td class="col-rainier">$828–$1,270</td>
+            <td class="col-olympic">$913–$1,360</td>
+            <td class="col-smokies">$790–$1,285 <span class="winner-badge">CHEAPEST</span></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">🥾 Best Hike</div></td>
+            <td class="col-rainier">Skyline Loop<br><small style="color:#6b7a94">5.5 mi, wildflowers, glacier</small></td>
+            <td class="col-olympic">Rialto Beach → Hole-in-the-Wall<br><small style="color:#6b7a94">4 mi flat, sea stacks</small></td>
+            <td class="col-smokies">Alum Cave Trail<br><small style="color:#6b7a94">4.4 mi, arch rock, cave bluffs</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">🌊 Water / Beach</div></td>
+            <td class="col-rainier">Rivers & glacial views only<br><small style="color:#6b7a94">No beach</small></td>
+            <td class="col-olympic">Wild Pacific coast + lake kayaking <span class="winner-badge">BEST</span><br><small style="color:#6b7a94">Sea stacks, tide pools</small></td>
+            <td class="col-smokies">River swimming holes, Abrams Falls<br><small style="color:#6b7a94">No ocean</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">🍺 Nightlife / Food</div></td>
+            <td class="col-rainier">Packwood Brewing, Ashford<br><small style="color:#6b7a94">Minimal — mountain town</small></td>
+            <td class="col-olympic">Port Angeles waterfront bars<br><small style="color:#6b7a94">Decent but limited</small></td>
+            <td class="col-smokies">Sugarlands, Ole Red, Jason Aldean's <span class="winner-badge">BEST</span><br><small style="color:#6b7a94">Full strip, live music nightly</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">🎆 July 4th</div></td>
+            <td class="col-rainier">Tacoma waterfront fireworks<br><small style="color:#6b7a94">Good but off-route</small></td>
+            <td class="col-olympic">Port Angeles harbor fireworks<br><small style="color:#6b7a94">Beautiful Pacific setting</small></td>
+            <td class="col-smokies">Midnight Parade + fireworks + Anakeesta <span class="winner-badge">BEST</span><br><small style="color:#6b7a94">Most festive by far</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">🚗 Logistics</div></td>
+            <td class="col-rainier">One base, simple <span class="winner-badge">TIED BEST</span><br><small style="color:#6b7a94">All park drives under 45 min</small></td>
+            <td class="col-olympic">Two bases required<br><small style="color:#6b7a94">Most driving of the 3</small></td>
+            <td class="col-smokies">One base, simple <span class="winner-badge">TIED BEST</span><br><small style="color:#6b7a94">Everything within 45 min</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">📸 Visual Drama</div></td>
+            <td class="col-rainier">14,411-ft volcano <span class="winner-badge">BEST</span><br><small style="color:#6b7a94">Staggering, every direction</small></td>
+            <td class="col-olympic">3 ecosystems + Pacific coast<br><small style="color:#6b7a94">Most diverse visually</small></td>
+            <td class="col-smokies">Lush Appalachian forests<br><small style="color:#6b7a94">Green, beautiful, less dramatic</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">👥 Non-Hiker Friendly</div></td>
+            <td class="col-rainier">Good — scenic drives cover a lot<br><small style="color:#6b7a94">7/10</small></td>
+            <td class="col-olympic">Excellent — flat forest + beach walks <span class="winner-badge">BEST</span><br><small style="color:#6b7a94">9/10</small></td>
+            <td class="col-smokies">Excellent — Cades Cove drive, falls<br><small style="color:#6b7a94">8.5/10</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">🦌 Wildlife</div></td>
+            <td class="col-rainier">Marmots, deer, occasional bear<br><small style="color:#6b7a94">Good</small></td>
+            <td class="col-olympic">Deer, Roosevelt elk, sea lions, orcas<br><small style="color:#6b7a94">Very good</small></td>
+            <td class="col-smokies">Wild elk (Cataloochee), black bear, deer <span class="winner-badge">UNIQUE</span><br><small style="color:#6b7a94">Only eastern elk herd</small></td>
+          </tr>
+          <tr>
+            <td><div class="row-label">🎯 Uniqueness</div></td>
+            <td class="col-rainier">Iconic American volcano<br><small style="color:#6b7a94">9/10 — nothing like it</small></td>
+            <td class="col-olympic">3 ecosystems, only temperate rainforest in northern hemisphere <span class="winner-badge">MOST UNIQUE</span><br><small style="color:#6b7a94">10/10</small></td>
+            <td class="col-smokies">Most visited park, deep Americana<br><small style="color:#6b7a94">7/10</small></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title">Overall Score Summary</div>
+    <div class="three-col" style="margin-top:0">
+      <div class="card rainier">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:28px">🏔</span>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff">Mt. Rainier</div>
+            <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--accent-rainier);text-transform:uppercase;letter-spacing:.1em">Best for: Pure alpine hikers</div>
+          </div>
+        </div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Overall Experience</span><span class="rating-score" style="color:#3b82f6">8.2/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:82%"></div></div></div>
+        <div style="margin-top:16px;font-size:13px;color:var(--muted);line-height:1.6">The most visually staggering of the three. Choose this if the primary goal is absolutely elite hiking scenery and the group is okay with minimal nightlife.</div>
+      </div>
+      <div class="card olympic">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:28px">🌲</span>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff">Olympic NP</div>
+            <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--accent-olympic);text-transform:uppercase;letter-spacing:.1em">Best for: Beach + diverse nature</div>
+          </div>
+        </div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Overall Experience</span><span class="rating-score" style="color:#10b981">8.0/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:80%"></div></div></div>
+        <div style="margin-top:16px;font-size:13px;color:var(--muted);line-height:1.6">The most unique park of the three. Choose this if beach/ocean access is a priority and the group wants maximum ecosystem variety. Requires more driving.</div>
+      </div>
+      <div class="card smokies">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <span style="font-size:28px">🌿</span>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:900;color:#fff">Smoky Mountains</div>
+            <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--accent-smokies);text-transform:uppercase;letter-spacing:.1em">Best for: Balanced group trip</div>
+          </div>
+        </div>
+        <div class="rating-item"><div class="rating-header"><span class="rating-label">Overall Experience</span><span class="rating-score" style="color:#f59e0b">8.7/10</span></div><div class="rating-bar"><div class="rating-fill" style="width:87%"></div></div></div>
+        <div style="margin-top:16px;font-size:13px;color:var(--muted);line-height:1.6">The most complete trip for a mixed group. Best July 4th, best logistics, best value, best nightlife. Choose this if the group wants both nature AND evening entertainment.</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-title">✦ Consultant's Recommendation — Based on Your Group Profile</div>
+      <div class="rec-headline">For your group: Great Smoky Mountains wins on points</div>
+      <div class="rec-body">
+        You described wanting <strong>hiking + food/nightlife + beach/water</strong>, with a <strong>West Coast/Southwest departure</strong> and <strong>$900–$1,500/person budget</strong>. You're a <strong>non-heavy hiking group</strong> celebrating July 4th weekend.<br><br>
+        The Smokies delivers on 5 of your 6 stated priorities (the only miss: no ocean beach). It has the <strong>best July 4th experience</strong> of any option (midnight parade is genuinely one-of-a-kind), the <strong>simplest logistics</strong> (one base, easy flights from DFW), the <strong>lowest per-person cost</strong>, and waterfall hiking that any fitness level can enjoy. The Cataloochee elk valley and Alum Cave are experiences your group will talk about for years.<br><br>
+        <strong>Rainier is the right answer if:</strong> your group prioritizes "most dramatic scenery" above everything else and is comfortable with minimal nightlife.<br><br>
+        <strong>Olympic is the right answer if:</strong> the ocean beach component is non-negotiable and the group has the energy for two-base logistics.
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function showTab(name) {
+  // Hide all panels
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  // Remove active from all buttons
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.className = 'tab-btn';
+  });
+  // Show selected panel
+  const panel = document.getElementById('panel-' + name);
+  if (panel) panel.classList.add('active');
+  // Activate button
+  const btn = document.getElementById('tab-' + name);
+  if (btn) btn.classList.add('tab-btn', 'active-' + name);
+}
+
+// Init on Smokies (our top pick shown first)
+showTab('smokies');
+</script>
+</body>
+</html>
