@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nihit Parikh — Marketing Science & Measurement | AdTech | AI</title>
+<meta name="description" content="Nihit Parikh — $180M+ in incremental revenue driven through data clean rooms, MMM, and experimentation. Marketing Science, Measurement Strategy, and AI-native analytics at PMG Worldwide.">
+<meta property="og:title" content="Nihit Parikh — Marketing Science & Measurement">
+<meta property="og:description" content="$180M+ incremental revenue. 8 clean room environments. Building AI-powered measurement tools at PMG.">
+<meta property="og:url" content="https://nihitparikh.github.io">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Epilogue:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #09100f;
+    --bg2: #0e1714;
+    --surface: #131f1c;
+    --surface2: #192620;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.1);
+    --text: #dde8e5;
+    --text2: #7a9991;
+    --text3: #4a6860;
+    --green: #2dd4b0;
+    --green2: rgba(45,212,176,0.12);
+    --green3: rgba(45,212,176,0.06);
+    --gold: #d4a853;
+    --gold2: rgba(212,168,83,0.1);
+    --radius: 10px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Epilogue', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9998; opacity: 0.5;
+  }
+  .glow-top {
+    position: fixed; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(45,212,176,0.06) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 48px; position: relative; z-index: 1; }
+  @media (max-width: 640px) { .wrap { padding: 0 22px; } }
+
+  /* NAV */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; border-bottom: 1px solid var(--border); }
+  .nav-id { display: flex; flex-direction: column; gap: 3px; }
+  .nav-name { font-family: 'Instrument Serif', serif; font-size: 18px; font-style: italic; color: var(--text); letter-spacing: 0.01em; }
+  .nav-title { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 0.12em; text-transform: uppercase; }
+  .nav-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .nav-link { font-size: 12px; font-weight: 500; letter-spacing: 0.05em; color: var(--text2); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-radius: 100px; transition: all 0.2s; }
+  .nav-link:hover { border-color: var(--green); color: var(--green); background: var(--green3); }
+  .nav-link.primary { background: var(--green2); border-color: rgba(45,212,176,0.3); color: var(--green); }
+  .nav-link.primary:hover { background: rgba(45,212,176,0.2); }
+
+  /* HERO */
+  .hero { padding: 88px 0 72px; }
+  .hero-kicker { display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 32px; opacity: 0; animation: rise 0.5s ease 0.05s forwards; }
+  .hero-kicker span { background: var(--green2); border: 1px solid rgba(45,212,176,0.2); color: var(--green); padding: 3px 10px; border-radius: 100px; font-size: 10px; }
+  .hero-headline { font-family: 'Instrument Serif', serif; font-size: clamp(40px, 6.5vw, 80px); font-weight: 400; line-height: 1.06; letter-spacing: -0.02em; color: #fff; margin-bottom: 10px; opacity: 0; animation: rise 0.6s ease 0.15s forwards; }
+  .hero-headline .accent { font-style: italic; color: var(--green); }
+  .hero-sub { font-family: 'Instrument Serif', serif; font-size: clamp(26px, 4vw, 50px); font-weight: 400; font-style: italic; color: var(--text2); line-height: 1.15; margin-bottom: 40px; opacity: 0; animation: rise 0.6s ease 0.25s forwards; letter-spacing: -0.01em; }
+  .hero-body { font-size: 16px; font-weight: 400; color: var(--text2); line-height: 1.8; max-width: 620px; margin-bottom: 40px; opacity: 0; animation: rise 0.6s ease 0.35s forwards; }
+  .hero-body strong { color: var(--text); font-weight: 600; }
+  .hero-cta-row { display: flex; gap: 12px; flex-wrap: wrap; opacity: 0; animation: rise 0.6s ease 0.45s forwards; margin-bottom: 64px; }
+  .cta-btn { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; padding: 12px 24px; border-radius: 8px; text-decoration: none; letter-spacing: 0.02em; transition: all 0.2s; cursor: pointer; border: none; }
+  .cta-primary { background: var(--green); color: var(--bg); }
+  .cta-primary:hover { background: #3de8c0; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(45,212,176,0.25); }
+  .cta-secondary { background: var(--surface); border: 1px solid var(--border2); color: var(--text); }
+  .cta-secondary:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
+
+  /* STATS */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; opacity: 0; animation: rise 0.6s ease 0.55s forwards; }
+  @media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+  .stat-cell { background: var(--surface); padding: 24px 28px; position: relative; overflow: hidden; transition: background 0.2s; }
+  .stat-cell::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--green), transparent); opacity: 0; transition: opacity 0.3s; }
+  .stat-cell:hover { background: var(--surface2); }
+  .stat-cell:hover::before { opacity: 1; }
+  .stat-num { font-family: 'Instrument Serif', serif; font-size: 32px; font-weight: 400; color: #fff; line-height: 1; margin-bottom: 6px; }
+  .stat-num em { font-style: italic; color: var(--green); }
+  .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.4; }
+
+  /* SECTION HEADERS */
+  .section-head { display: flex; justify-content: space-between; align-items: flex-end; padding: 64px 0 28px; border-top: 1px solid var(--border); margin-top: 64px; flex-wrap: wrap; gap: 12px; }
+  .section-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 8px; }
+  .section-title { font-family: 'Instrument Serif', serif; font-size: 32px; font-weight: 400; color: #fff; font-style: italic; }
+  .section-link { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); text-decoration: none; letter-spacing: 0.08em; display: flex; align-items: center; gap: 6px; transition: color 0.2s; white-space: nowrap; }
+  .section-link:hover { color: var(--green); }
+
+  /* PROJECTS */
+  .projects { display: flex; flex-direction: column; gap: 2px; }
+  .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; text-decoration: none; color: inherit; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; transition: border-color 0.25s, background 0.25s, transform 0.25s cubic-bezier(0.16,1,0.3,1); position: relative; overflow: hidden; }
+  .project-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--green); opacity: 0; transition: opacity 0.25s; }
+  .project-card:hover { border-color: var(--border2); background: var(--surface2); transform: translateX(4px); }
+  .project-card:hover::before { opacity: 1; }
+  @media (max-width: 640px) { .project-card { grid-template-columns: 1fr; } }
+  .project-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .project-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.12em; }
+  .project-type { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 2px 9px; border-radius: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .type-live { background: var(--green2); color: var(--green); border: 1px solid rgba(45,212,176,0.25); }
+  .type-wip { background: var(--gold2); color: var(--gold); border: 1px solid rgba(212,168,83,0.25); }
+  .type-soon { background: rgba(255,255,255,0.04); color: var(--text3); border: 1px solid var(--border); }
+  .project-name { font-family: 'Instrument Serif', serif; font-size: 22px; font-weight: 400; color: #fff; margin-bottom: 8px; line-height: 1.2; letter-spacing: -0.01em; }
+  .project-desc { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 16px; max-width: 560px; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .project-tag { font-family: 'IBM Plex Mono', monospace; font-size: 10px; padding: 3px 9px; border-radius: 4px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text3); letter-spacing: 0.06em; transition: color 0.2s, border-color 0.2s; }
+  .project-card:hover .project-tag { color: var(--text2); border-color: var(--border2); }
+  .project-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 4px; }
+  .project-arrow { font-size: 18px; color: var(--text3); transition: color 0.2s, transform 0.25s cubic-bezier(0.16,1,0.3,1); line-height: 1; }
+  .project-card:hover .project-arrow { color: var(--green); transform: translate(3px, -3px); }
+  .project-status { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.1em; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; animation: glow-pulse 2s ease-in-out infinite; }
+  .pulse.gold { background: var(--gold); }
+  .pulse.dim { background: var(--text3); animation: none; }
+  @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(45,212,176,0.4); } 50% { box-shadow: 0 0 0 4px rgba(45,212,176,0); } }
+
+  /* EXPERTISE */
+  .expertise-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+  @media (max-width: 800px) { .expertise-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .expertise-grid { grid-template-columns: 1fr; } }
+  .expertise-cell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; transition: border-color 0.25s; }
+  .expertise-cell:hover { border-color: var(--border2); }
+  .expertise-icon { font-size: 22px; margin-bottom: 14px; display: block; }
+  .expertise-name { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .expertise-desc { font-size: 12px; color: var(--text3); line-height: 1.6; }
+  .expertise-tools { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 5px; }
+  .expertise-tool { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 8px; border-radius: 3px; background: var(--surface2); border: 1px solid var(--border); color: var(--text3); letter-spacing: 0.06em; }
+
+  /* OPEN TO */
+  .signal-row { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 32px; display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: center; margin-top: 40px; }
+  @media (max-width: 640px) { .signal-row { grid-template-columns: 1fr; } }
+  .signal-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--green); letter-spacing: 0.15em; text-transform: uppercase; white-space: nowrap; padding-right: 32px; border-right: 1px solid var(--border); }
+  @media (max-width: 640px) { .signal-label { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 16px; } }
+  .signal-roles { display: flex; flex-wrap: wrap; gap: 8px; }
+  .signal-role { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border2); color: var(--text2); background: var(--surface2); transition: all 0.2s; cursor: default; }
+  .signal-role:hover { border-color: rgba(45,212,176,0.3); color: var(--green); background: var(--green3); }
+  .signal-role.hot { border-color: rgba(45,212,176,0.3); color: var(--green); background: var(--green2); }
+
+  /* CREDENTIALS */
+  .creds-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 2px; }
+  @media (max-width: 640px) { .creds-row { grid-template-columns: 1fr; } }
+  .cred-cell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; display: flex; gap: 16px; align-items: flex-start; }
+  .cred-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+  .cred-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .cred-sub { font-size: 12px; color: var(--text3); line-height: 1.5; }
+  .cred-badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; margin-top: 8px; display: inline-block; padding: 2px 8px; border-radius: 3px; background: var(--gold2); border: 1px solid rgba(212,168,83,0.25); color: var(--gold); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* WRITING */
+  .writing-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+  @media (max-width: 800px) { .writing-grid { grid-template-columns: 1fr; } }
+  .writing-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-decoration: none; color: inherit; transition: border-color 0.25s, transform 0.25s; display: flex; flex-direction: column; gap: 10px; }
+  .writing-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+  .writing-platform { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text3); letter-spacing: 0.1em; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+  .writing-platform .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+  .writing-title { font-family: 'Instrument Serif', serif; font-size: 17px; font-weight: 400; color: #fff; line-height: 1.3; flex: 1; }
+  .writing-desc { font-size: 12px; color: var(--text3); line-height: 1.5; }
+  .writing-arrow { font-size: 14px; color: var(--text3); align-self: flex-end; transition: color 0.2s, transform 0.2s; }
+  .writing-card:hover .writing-arrow { color: var(--green); transform: translate(2px, -2px); }
+
+  /* CONTACT */
+  .contact-strip { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 48px; text-align: center; margin-top: 64px; position: relative; overflow: hidden; }
+  .contact-strip::before { content: ''; position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); width: 400px; height: 200px; background: radial-gradient(ellipse, rgba(45,212,176,0.08) 0%, transparent 70%); pointer-events: none; }
+  .contact-strip h2 { font-family: 'Instrument Serif', serif; font-size: 38px; font-weight: 400; font-style: italic; color: #fff; margin-bottom: 12px; position: relative; }
+  .contact-strip p { font-size: 14px; color: var(--text2); line-height: 1.6; max-width: 480px; margin: 0 auto 28px; position: relative; }
+  .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; position: relative; }
+
+  /* FOOTER */
+  footer { padding: 36px 0 32px; border-top: 1px solid var(--border); margin-top: 64px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-id { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.08em; }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text3); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--green); }
+
+  /* TICKER */
+  .ticker { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 13px 0; }
+  .ticker-track { display: flex; white-space: nowrap; animation: tick 26s linear infinite; }
+  .ticker-item { font-family: 'Instrument Serif', serif; font-size: 14px; font-style: italic; color: var(--text3); padding: 0 32px; display: flex; align-items: center; gap: 32px; }
+  .ticker-item::after { content: '·'; font-style: normal; color: var(--green); }
+  @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ANIMATIONS */
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .d1 { transition-delay: 0.08s; } .d2 { transition-delay: 0.16s; } .d3 { transition-delay: 0.24s; }
+  .d4 { transition-delay: 0.32s; } .d5 { transition-delay: 0.4s; } .d6 { transition-delay: 0.48s; }
+</style>
+</head>
+<body>
+<div class="glow-top"></div>
+<div class="wrap">
+
+  <nav>
+    <div class="nav-id">
+      <div class="nav-name">Nihit Parikh</div>
+      <div class="nav-title">Marketing Science · Measurement · AI</div>
+    </div>
+    <div class="nav-right">
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#expertise" class="nav-link">Expertise</a>
+      <a href="https://www.linkedin.com/in/nihitparikh/" target="_blank" rel="noopener" class="nav-link primary">Connect ↗</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-kicker">
+      <span>Open to opportunities</span>
+      AdTech · Measurement · AI
+    </div>
+    <h1 class="hero-headline">
+      Measurement science<br>
+      <span class="accent">that moves money.</span>
+    </h1>
+    <p class="hero-sub">Not dashboards. Decisions.</p>
+    <p class="hero-body">
+      I'm a data scientist and measurement strategist at <strong>PMG Worldwide</strong> — where I've driven <strong>$180M+ in incremental revenue</strong> through data clean rooms, MMM, and experimentation across Google ADH, Amazon Ads, TikTok, and Snapchat.<br><br>
+      I sit at the intersection of <strong>privacy-safe data infrastructure</strong>, <strong>media measurement</strong>, and <strong>AI-native tooling</strong> — translating complex signals into strategies that Fortune 500 advertisers actually act on. Now building in public.
+    </p>
+    <div class="hero-cta-row">
+      <a href="https://www.linkedin.com/in/nihitparikh/" target="_blank" rel="noopener" class="cta-btn cta-primary">Let's connect ↗</a>
+      <a href="#projects" class="cta-btn cta-secondary">See my work ↓</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-cell">
+        <div class="stat-num"><em>$180M+</em></div>
+        <div class="stat-label">Incremental revenue<br>driven</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Clean room<br>environments owned</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num"><em>$250M</em></div>
+        <div class="stat-label">Program managed<br>(financial services)</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">4<em>+</em></div>
+        <div class="stat-label">Years in AdTech<br>measurement</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Data Clean Rooms</span>
+    <span class="ticker-item">Marketing Mix Modeling</span>
+    <span class="ticker-item">Incrementality Testing</span>
+    <span class="ticker-item">Amazon Ads · TikTok · Google ADH</span>
+    <span class="ticker-item">Privacy-Safe Measurement</span>
+    <span class="ticker-item">AI-Powered Analytics</span>
+    <span class="ticker-item">Fortune 500 Advertisers</span>
+    <span class="ticker-item">PMG Worldwide · UT Austin McCombs</span>
+    <span class="ticker-item">Building in Public</span>
+    <span class="ticker-item">Data Clean Rooms</span>
+    <span class="ticker-item">Marketing Mix Modeling</span>
+    <span class="ticker-item">Incrementality Testing</span>
+    <span class="ticker-item">Amazon Ads · TikTok · Google ADH</span>
+    <span class="ticker-item">Privacy-Safe Measurement</span>
+    <span class="ticker-item">AI-Powered Analytics</span>
+    <span class="ticker-item">Fortune 500 Advertisers</span>
+    <span class="ticker-item">PMG Worldwide · UT Austin McCombs</span>
+    <span class="ticker-item">Building in Public</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-eyebrow">01 — Projects</div>
+        <div class="section-title">Built in public</div>
+      </div>
+      <a href="https://github.com/nihitparikh" target="_blank" rel="noopener" class="section-link">github.com/nihitparikh ↗</a>
+    </div>
+    <div class="projects">
+      <a href="trip-dashboard.html" class="project-card reveal d1" target="_blank" rel="noopener">
+        <div class="project-left">
+          <div class="project-meta">
+            <span class="project-num">001</span>
+            <span class="project-type type-live">Live</span>
+          </div>
+          <div class="project-name">Group Trip Planning Dashboard</div>
+          <div class="project-desc">AI-generated interactive decision dashboard comparing 3 U.S. national park trips for a group of 7 — with full day-by-day itineraries, trail guides, per-person cost breakdowns, and a data-driven recommendation. Built with Claude in 10 minutes. Same framework I use professionally: complex inputs → clear decision output.</div>
+          <div class="project-tags">
+            <span class="project-tag">Claude AI</span>
+            <span class="project-tag">Interactive Dashboard</span>
+            <span class="project-tag">Decision Intelligence</span>
+            <span class="project-tag">HTML / CSS / JS</span>
+          </div>
+        </div>
+        <div class="project-right">
+          <span class="project-arrow">↗</span>
+          <div class="project-status"><div class="pulse"></div> Live</div>
+        </div>
+      </a>
+      <div class="project-card reveal d2" style="cursor:default;">
+        <div class="project-left">
+          <div class="project-meta">
+            <span class="project-num">002</span>
+            <span class="project-type type-wip">In Progress</span>
+          </div>
+          <div class="project-name">AI Measurement Marketplace <span style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--text3);font-size:16px;">@ PMG</span></div>
+          <div class="project-desc">Architecting an agentic, multi-tool analytics platform integrating Claude (Haiku & Sonnet), GPT, and Gemini — enabling client teams to autonomously run measurement validation across clustering, segmentation, and time-series forecasting. Reducing data science bottlenecks at scale.</div>
+          <div class="project-tags">
+            <span class="project-tag">Claude Haiku · Sonnet</span>
+            <span class="project-tag">Multi-Agent Systems</span>
+            <span class="project-tag">GPT · Gemini</span>
+            <span class="project-tag">Measurement Automation</span>
+            <span class="project-tag">AdTech</span>
+          </div>
+        </div>
+        <div class="project-right">
+          <div class="project-status"><div class="pulse gold"></div> Building</div>
+        </div>
+      </div>
+      <div class="project-card reveal d3" style="cursor:default;opacity:0.45;pointer-events:none;">
+        <div class="project-left">
+          <div class="project-meta">
+            <span class="project-num">003</span>
+            <span class="project-type type-soon">Coming Soon</span>
+          </div>
+          <div class="project-name">Next public project</div>
+          <div class="project-desc">Something at the intersection of marketing measurement and AI tooling. Follow on LinkedIn for updates.</div>
+          <div class="project-tags"><span class="project-tag">TBD</span></div>
+        </div>
+        <div class="project-right">
+          <div class="project-status"><div class="pulse dim"></div> Planned</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERTISE -->
+  <section id="expertise">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-eyebrow">02 — Expertise</div>
+        <div class="section-title">Where I operate</div>
+      </div>
+    </div>
+    <div class="expertise-grid">
+      <div class="expertise-cell reveal d1">
+        <span class="expertise-icon">🔬</span>
+        <div class="expertise-name">Media Measurement & Incrementality</div>
+        <div class="expertise-desc">MMM, geo-clustering, holdout testing, diminishing returns modeling. Translating measurement into spend decisions that move revenue, not just metrics.</div>
+        <div class="expertise-tools">
+          <span class="expertise-tool">MMM</span><span class="expertise-tool">Geo Testing</span><span class="expertise-tool">Incrementality</span><span class="expertise-tool">ROAS Allocation</span>
+        </div>
+      </div>
+      <div class="expertise-cell reveal d2">
+        <span class="expertise-icon">🔐</span>
+        <div class="expertise-name">Data Clean Rooms & Privacy Tech</div>
+        <div class="expertise-desc">End-to-end ownership of AMC, LiveRamp, and Google ADH. Scaled from 3 to 8 clean room environments in under 4 months. Bridging publishers, media teams, and brands.</div>
+        <div class="expertise-tools">
+          <span class="expertise-tool">AMC</span><span class="expertise-tool">LiveRamp</span><span class="expertise-tool">Google ADH</span><span class="expertise-tool">First-Party Data</span>
+        </div>
+      </div>
+      <div class="expertise-cell reveal d3">
+        <span class="expertise-icon">🤖</span>
+        <div class="expertise-name">AI-Native Analytics</div>
+        <div class="expertise-desc">Building agentic measurement tools with Claude, GPT, and Gemini. Automating preliminary analysis so data science teams focus on what actually matters.</div>
+        <div class="expertise-tools">
+          <span class="expertise-tool">Claude API</span><span class="expertise-tool">GPT-4</span><span class="expertise-tool">Gemini</span><span class="expertise-tool">Multi-Agent</span>
+        </div>
+      </div>
+      <div class="expertise-cell reveal d4">
+        <span class="expertise-icon">📡</span>
+        <div class="expertise-name">Publisher & Platform Partnerships</div>
+        <div class="expertise-desc">Primary POC for joint clean room strategy with Amazon Ads, TikTok, Snapchat, Meta, Pinterest, and LinkedIn measurement teams.</div>
+        <div class="expertise-tools">
+          <span class="expertise-tool">Amazon Ads</span><span class="expertise-tool">TikTok</span><span class="expertise-tool">Snapchat</span><span class="expertise-tool">Meta</span>
+        </div>
+      </div>
+      <div class="expertise-cell reveal d5">
+        <span class="expertise-icon">📊</span>
+        <div class="expertise-name">Data Science & Modeling</div>
+        <div class="expertise-desc">Segmentation, time-series forecasting, XGBoost in BigQuery ML, environment scoring. Built models that directly informed national retail and media strategy.</div>
+        <div class="expertise-tools">
+          <span class="expertise-tool">Python</span><span class="expertise-tool">R</span><span class="expertise-tool">SQL</span><span class="expertise-tool">BigQuery ML</span>
+        </div>
+      </div>
+      <div class="expertise-cell reveal d6">
+        <span class="expertise-icon">💼</span>
+        <div class="expertise-name">GTM & Client Strategy</div>
+        <div class="expertise-desc">$2.5M+ ARR contributed for an MMM SaaS platform. $1M in new business from a proprietary media performance tool. Executive-facing narratives that land.</div>
+        <div class="expertise-tools">
+          <span class="expertise-tool">Fortune 500</span><span class="expertise-tool">Fin Services</span><span class="expertise-tool">Retail</span><span class="expertise-tool">Healthcare</span>
+        </div>
+      </div>
+    </div>
+    <div class="signal-row reveal">
+      <div class="signal-label">Open to</div>
+      <div class="signal-roles">
+        <span class="signal-role hot">Measurement Lead</span>
+        <span class="signal-role hot">Marketing Science Partner</span>
+        <span class="signal-role hot">Solutions Engineer</span>
+        <span class="signal-role">Analytics Leadership</span>
+        <span class="signal-role">Marketing Analytics</span>
+        <span class="signal-role">Customer Success</span>
+        <span class="signal-role">Growth Analytics</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section>
+    <div class="section-head reveal">
+      <div>
+        <div class="section-eyebrow">03 — Background</div>
+        <div class="section-title">Credentials & recognition</div>
+      </div>
+    </div>
+    <div class="creds-row">
+      <div class="cred-cell reveal d1">
+        <div class="cred-icon">🎓</div>
+        <div>
+          <div class="cred-title">MS Marketing (Analytics focus)</div>
+          <div class="cred-sub">University of Texas at Austin · McCombs School of Business · GPA 3.8/4.0</div>
+          <div class="cred-badge">Student of the Year 2022</div>
+        </div>
+      </div>
+      <div class="cred-cell reveal d2">
+        <div class="cred-icon">💻</div>
+        <div>
+          <div class="cred-title">B.Tech Computer Engineering</div>
+          <div class="cred-sub">Pandit Deendayal Energy University, India · GPA 3.7/4.0 · 99th percentile CAT</div>
+          <div class="cred-badge">Dual Technical Foundation</div>
+        </div>
+      </div>
+      <div class="cred-cell reveal d3">
+        <div class="cred-icon">🏆</div>
+        <div>
+          <div class="cred-title">Industry Thought Leadership</div>
+          <div class="cred-sub">Represented PMG at RampUp and industry forums. Developed clean room playbooks that established PMG as a category leader in privacy-safe measurement.</div>
+          <div class="cred-badge">Speaker · RampUp</div>
+        </div>
+      </div>
+      <div class="cred-cell reveal d4">
+        <div class="cred-icon">📍</div>
+        <div>
+          <div class="cred-title">4 Years · PMG Worldwide · Dallas, TX</div>
+          <div class="cred-sub">Performance media marketing & technology company. Fortune 500 portfolio across financial services, retail, healthcare, and QSR — combined $5B+ media spend.</div>
+          <div class="cred-badge">~$5B Media Spend Managed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section>
+    <div class="section-head reveal">
+      <div>
+        <div class="section-eyebrow">04 — Thought Leadership</div>
+        <div class="section-title">Ideas & perspectives</div>
+      </div>
+      <a href="https://www.linkedin.com/in/nihitparikh/" target="_blank" rel="noopener" class="section-link">All posts on LinkedIn ↗</a>
+    </div>
+    <div class="writing-grid">
+      <a href="https://www.linkedin.com/in/nihitparikh/" target="_blank" rel="noopener" class="writing-card reveal d1">
+        <div class="writing-platform"><div class="dot"></div> LinkedIn · AI & Productivity</div>
+        <div class="writing-title">How AI made group trip planning data-driven — in 10 minutes</div>
+        <div class="writing-desc">Built an interactive dashboard comparing 3 national parks for July 4th weekend. Same logic I use at work: complex inputs → clear decisions.</div>
+        <div class="writing-arrow">↗</div>
+      </a>
+      <div class="writing-card reveal d2" style="opacity:0.45;cursor:default;pointer-events:none;">
+        <div class="writing-platform"><div class="dot" style="background:var(--gold)"></div> Coming Soon · Measurement</div>
+        <div class="writing-title">Why incrementality is the only metric that actually matters in paid media</div>
+        <div class="writing-desc">A practitioner's take on why ROAS lies and what $175M in clean room experiments taught me about attribution.</div>
+        <div class="writing-arrow">—</div>
+      </div>
+      <div class="writing-card reveal d3" style="opacity:0.35;cursor:default;pointer-events:none;">
+        <div class="writing-platform"><div class="dot" style="background:var(--text3)"></div> Coming Soon · AdTech</div>
+        <div class="writing-title">Data clean rooms: what they actually are vs. how they're sold</div>
+        <div class="writing-desc">After owning 8 clean room environments across AMC, LiveRamp, and Google ADH — a candid guide on what works.</div>
+        <div class="writing-arrow">—</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <div class="contact-strip reveal">
+    <h2>Let's build something that moves the needle.</h2>
+    <p>Open to Measurement Lead, Marketing Science Partner, Solutions Engineer, and Analytics leadership roles. Also always down to talk clean rooms, MMM, or AI tooling.</p>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/nihitparikh/" target="_blank" rel="noopener" class="cta-btn cta-primary">Connect on LinkedIn ↗</a>
+      <a href="mailto:nihitparikh14@gmail.com" class="cta-btn cta-secondary">nihitparikh14@gmail.com</a>
+      <a href="https://github.com/nihitparikh" target="_blank" rel="noopener" class="cta-btn cta-secondary">GitHub ↗</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-id">nihitparikh.github.io · Built with Claude · © 2026</div>
+    <div class="footer-links">
+      <a href="https://www.linkedin.com/in/nihitparikh/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/nihitparikh" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:nihitparikh14@gmail.com">Email</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  els.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
